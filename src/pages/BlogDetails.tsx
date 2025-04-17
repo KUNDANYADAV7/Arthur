@@ -33,7 +33,7 @@ const BlogDetails = () => {
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold text-pesto-brown mb-4">{blog?.title}</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">{new Date(blog.createdAt).toDateString()}</p>
+          <p className="text-muted-foreground max-w-2xl mx-auto">{new Date(blog?.createdAt).toDateString()}</p>
         </div>
 
         <div className="max-w-4xl mx-auto">
