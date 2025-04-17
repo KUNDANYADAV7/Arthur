@@ -20,13 +20,13 @@ const BlogDetails = () => {
     }
   }, [slug]);
 
-  // if (!blog) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-[#fffbf2]">
-  //       <p className="text-xl text-gray-600">Blog not found.</p>
-  //     </div>
-  //   );
-  // }
+  if (!blog) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fffbf2]">
+        <p className="text-xl text-gray-600">Blog not found.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-24 pb-16 bg-[#fffbf2]">
