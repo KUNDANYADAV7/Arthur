@@ -32,18 +32,18 @@ const BlogDetails = () => {
     <div className="min-h-screen pt-24 pb-16 bg-[#fffbf2]">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold text-pesto-brown mb-4">{blog.title}</h1>
+          <h1 className="text-4xl font-bold text-pesto-brown mb-4">{blog?.title}</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">{new Date(blog.createdAt).toDateString()}</p>
         </div>
 
         <div className="max-w-4xl mx-auto">
           <img
-            src={`${config.apiUrl}/${blog.photo}`}
-            alt={blog.title}
+            src={`${config.apiUrl}/${blog?.photo}`}
+            alt={blog?.title}
             className="w-full h-96 object-cover rounded-xl shadow-md mb-8"
           />
           <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
-            {blog.about}
+            {blog?.about}
           </p>
 
           <div className="text-center mt-8">
