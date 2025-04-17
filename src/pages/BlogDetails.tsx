@@ -23,7 +23,7 @@ const BlogDetails = () => {
   if (!blog) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fffbf2]">
-        <p className="text-xl text-gray-600">Blog not found.</p>
+        <p className="text-xl text-gray-600">Loading...</p>
       </div>
     );
   }
