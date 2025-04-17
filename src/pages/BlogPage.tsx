@@ -9,8 +9,6 @@ const BlogPage: React.FC = () => {
 
   const { allblogs, loading } = useBlog();
 
-  console.log(allblogs)
-
   return (
     <div className="min-h-screen pt-24 pb-16 bg-[#fffbf2]">
     <div className="container mx-auto px-4">

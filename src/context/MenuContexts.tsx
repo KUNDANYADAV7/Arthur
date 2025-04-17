@@ -50,9 +50,6 @@ export const MenuProviders: React.FC<ProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [subcat,setSubcat] = useState<MenuItem[]>([]);
 
-
-  console.log("menus",menus);
-
   // Fetch all menus
   const fetchMenus = async () => {
     try {

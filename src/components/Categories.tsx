@@ -9,8 +9,6 @@ const Categories: React.FC = () => {
   const { allCategories } = useMenuCategory();
   const { menus } = useMenus();
 
-  console.log(menus);
-
   return (
     <section className="py-16 bg-pesto-cream/50">
       <div className="container mx-auto px-4">

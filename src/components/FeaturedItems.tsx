@@ -15,8 +15,6 @@ const FeaturedMenu = () => {
   
   const { allPopularChoices } = usePopularChoice();
 
-  console.log(allPopularChoices);
-
   return (
     <section className="section-padding">
   <div className="mx-auto px-0">

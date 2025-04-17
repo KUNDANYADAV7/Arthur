@@ -22,7 +22,6 @@ const Menu: React.FC = () => {
   const { getMenusByCategory, menus, loading: menuLoading } = useMenus();
   const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
-  console.log(allCategories);
 
   const [sortOrder, setSortOrder] = useState("default");
   const [filteredMenus, setFilteredMenus] = useState([]);
