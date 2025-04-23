@@ -151,6 +151,7 @@ const Menu: React.FC = () => {
                   >
                     <img
                       src={`${config.apiUrl}/${category.photo}`}
+                      loading="lazy"
                       alt={category.title}
                       className="w-full h-full object-cover"
                     />

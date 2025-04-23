@@ -36,7 +36,7 @@ const Categories: React.FC = () => {
             {/* All Menu Card */}
             <Link to="/menu/all" className="category-card">
               <div className="relative">
-                <img src="/all-menu.png" alt="All" className="category-image" />
+                <img src="/all-menu.png" loading="lazy" alt="All" className="category-image" />
               </div>
               <div className="mt-4 text-center">
                 <h3 className="font-bold text-pesto-brown text-lg">All</h3>
