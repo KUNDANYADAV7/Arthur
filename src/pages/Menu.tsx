@@ -18,6 +18,8 @@ const toSlug = (str: string) => str.toLowerCase().replace(/\s+/g, "-");
 const fromSlug = (slug: string) => slug.replace(/-/g, " ");
 
 const Menu: React.FC = () => {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   const { allCategories, fetchAllCategories } = useMenuCategory();
   const { getMenusByCategory, menus, loading: menuLoading, fetchMenus } = useMenus();
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -175,7 +177,7 @@ const Menu: React.FC = () => {
               ({sortedMenus.length} items)
             </span>
           </h2>
-          <Select onValueChange={setSortOrder} defaultValue="default">
+          {/* <Select onValueChange={setSortOrder} defaultValue="default">
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -186,7 +188,35 @@ const Menu: React.FC = () => {
               <SelectItem value="name-a-z">Name: A to Z</SelectItem>
               <SelectItem value="name-z-a">Name: Z to A</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
+
+{isMobile ? (
+  <select
+    className="border rounded px-4 py-2 text-sm"
+    value={sortOrder}
+    onChange={(e) => setSortOrder(e.target.value)}
+  >
+    <option value="default">Default</option>
+    <option value="price-low-high">Price: Low to High</option>
+    <option value="price-high-low">Price: High to Low</option>
+    <option value="name-a-z">Name: A to Z</option>
+    <option value="name-z-a">Name: Z to A</option>
+  </select>
+) : (
+  <Select onValueChange={setSortOrder} defaultValue="default">
+    <SelectTrigger className="w-[180px]">
+      <SelectValue placeholder="Sort by" />
+    </SelectTrigger>
+    <SelectContent className="z-50">
+      <SelectItem value="default">Default</SelectItem>
+      <SelectItem value="price-low-high">Price: Low to High</SelectItem>
+      <SelectItem value="price-high-low">Price: High to Low</SelectItem>
+      <SelectItem value="name-a-z">Name: A to Z</SelectItem>
+      <SelectItem value="name-z-a">Name: Z to A</SelectItem>
+    </SelectContent>
+  </Select>
+)}
+
         </div>
 
         {/* Conditional Notes */}
@@ -201,27 +231,6 @@ const Menu: React.FC = () => {
             $1.99 for 1 Scoop | $3.99 for 3 Scoop
           </p>
         )}
-
-
-
-        {/* {selectedCategory.toLowerCase() === "ice cream" && sortedMenus.length > 0 && (
-  <>
-    {allCategories
-      .filter(
-        (item) => item.title && item.title.toLowerCase() === "ice cream"
-      )
-      .slice(0, 1)
-      .map((item) => (
-        <p key={item._id} className="text-green-500 text-xl text-center mb-10">
-          {item?.price}
-        </p>
-      ))}
-  </>
-)} */}
-
-
-
-
 
         {/* Product Cards */}
         {menuLoading ? (
