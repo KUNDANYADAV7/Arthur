@@ -18,6 +18,8 @@ export type FoodItem = {
   featured: boolean;
   onSale: boolean;
   prepInstructions?: string; // Detailed preparation instructions
+  category?: string;
+  saleDescription?: string;
 };
 
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePopularChoice } from '@/context/PopularChoiceContext';
 import config from '@/config';
@@ -13,7 +13,11 @@ interface MenuItem {
 const FeaturedMenu = () => {
   const navigate = useNavigate();
   
-  const { allPopularChoices } = usePopularChoice();
+  const { allPopularChoices, fetchAllPopularChoices } = usePopularChoice();
+
+  useEffect(()=>{
+    fetchAllPopularChoices();
+  },[])
 
   return (
     <section className="section-padding">

@@ -60,7 +60,7 @@ export const MenuProviders: React.FC<ProviderProps> = ({ children }) => {
       );
       setMenus(data);
     } catch (error) {
-      toast.error("Failed to load menus");
+      // toast.error("Failed to load menus");
     } finally {
       setLoading(false);
     }

@@ -30,6 +30,7 @@ interface MenuCategoryContextType {
   loading: boolean;
   getCategoryById: (id: string) => Promise<MenuCategory | null>;
   fetchSubCategoriesByTitle: (title: string) => Promise<void>;
+  fetchAllCategories: () => Promise<void>;
 }
 
 const MenuCategoryContext = createContext<MenuCategoryContextType | undefined>(
@@ -103,6 +104,7 @@ export const MenuCategoryProvider: React.FC<MenuCategoryProviderProps> = ({
         loading,
         getCategoryById,
         fetchSubCategoriesByTitle,
+        fetchAllCategories
       }}
     >
       {children}

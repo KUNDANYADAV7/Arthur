@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMenuCategory } from "@/context/MenuCategoryContext";
-import config from "@/config";
 import { useMenus } from "@/context/MenuContexts";
+import config from "@/config";
+
 const toSlug = (str: string) => str.toLowerCase().replace(/\s+/g, "-");
 
 const Categories: React.FC = () => {
-  const { allCategories } = useMenuCategory();
-  const { menus } = useMenus();
+  const { allCategories, fetchAllCategories } = useMenuCategory();
+  const { menus, fetchMenus } = useMenus();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      await Promise.all([fetchAllCategories(), fetchMenus()]);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   return (
     <section className="py-16 bg-pesto-cream/50">
@@ -16,64 +27,56 @@ const Categories: React.FC = () => {
           Arthur&apos;s Featured Menu
         </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-          {/* "All" card first */}
-          <Link
-            to="/menu/all"
-             className="category-card"
-          >
-            <div className="relative">
-              <img
-                src="/all-menu.png"
-                alt="All"
-                className="category-image"
-              />
-            </div>
-            <div className="mt-4 text-center">
-              <h3 className="font-bold text-pesto-brown text-lg">All</h3>
-              <p className="text-sm text-gray-600">
-  {
-    menus.length
-  }{" "}
-  items
-</p>
-            </div>
-          </Link>
-
-          {/* Dynamic categories */}
-          {allCategories?.map((category) => (
-            <Link
-              key={category._id}
-              to={`/menu/${toSlug(category.title)}`}
-               className="category-card"
-            >
+        {loading ? (
+          <div className="text-center text-lg text-pesto-brown font-medium">Loading menus...</div>
+        ) : menus.length === 0 || allCategories.length === 0 ? (
+          <div className="text-center text-lg text-pesto-brown font-medium">No menu items found.</div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            {/* All Menu Card */}
+            <Link to="/menu/all" className="category-card">
               <div className="relative">
-                <img
-                  src={`${config.apiUrl}/${category.photo}`}
-                  alt={category.title}
-                  className="category-image"
-                />
+                <img src="/all-menu.png" alt="All" className="category-image" />
               </div>
               <div className="mt-4 text-center">
-              <h3 className="font-bold text-pesto-brown text-lg">
-  {category?.title}
-</h3>
-<p className="text-sm text-gray-600">
-  {
-    menus?.filter((menu) =>
-      menu.category.toLowerCase() === category.title.toLowerCase()
-    ).length
-  }{" "}
-  items
-</p>
+                <h3 className="font-bold text-pesto-brown text-lg">All</h3>
+                <p className="text-sm text-gray-600">{menus.length} items</p>
               </div>
             </Link>
-          ))}
-        </div>
+
+            {/* Dynamic Category Cards */}
+            {allCategories.map((category) => (
+              <Link
+                key={category._id}
+                to={`/menu/${toSlug(category.title)}`}
+                className="category-card"
+              >
+                <div className="relative">
+                  <img
+                    src={`${config.apiUrl}/${category.photo}`}
+                    alt={category.title}
+                    className="category-image"
+                  />
+                </div>
+                <div className="mt-4 text-center">
+                  <h3 className="font-bold text-pesto-brown text-lg">{category.title}</h3>
+                  <p className="text-sm text-gray-600">
+                    {
+                      menus.filter(
+                        (menu) =>
+                          menu.category.toLowerCase() === category.title.toLowerCase()
+                      ).length
+                    }{" "}
+                    items
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
 export default Categories;
-

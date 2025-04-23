@@ -27,6 +27,7 @@ interface BlogContextType {
   allblogs: Blog[];
   loading: boolean;
   getBlogById: (slug: string) => Promise<Blog | null>;
+  fetchAllBlogs: () => Promise<void>;
 }
 
 // Context Default
@@ -84,6 +85,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
         allblogs,
         loading,
         getBlogById,
+        fetchAllBlogs
       }}
     >
       {children}

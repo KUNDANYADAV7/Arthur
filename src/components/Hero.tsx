@@ -5,10 +5,11 @@ import { useOffer } from "@/context/OfferContext";
 
 
 const Hero: React.FC = () => {
-const { allOffers } = useOffer();
+const { allOffers, fetchAllOffers } = useOffer();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchAllOffers();
   }, []);
 
   return (
@@ -32,10 +33,6 @@ const { allOffers } = useOffer();
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl text-white">
-          <div className="inline-flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-6 border border-white/20">
-            <Star size={16} className="text-yellow-400 mr-2" />
-            <span>Rated #1 Restaurant Experience of 2025</span>
-          </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-pesto-light-orange">

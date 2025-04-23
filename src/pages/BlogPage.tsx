@@ -3,11 +3,13 @@ import BlogCard from "@/components/BlogCard";
 import { useBlog } from "@/context/BlogContext";
 
 const BlogPage: React.FC = () => {
+  const { allblogs, loading, fetchAllBlogs } = useBlog();
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchAllBlogs(); 
   }, []);
 
-  const { allblogs, loading } = useBlog();
+
 
   return (
     <div className="min-h-screen pt-24 pb-16 bg-[#fffbf2]">

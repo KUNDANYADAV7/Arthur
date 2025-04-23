@@ -18,8 +18,8 @@ const toSlug = (str: string) => str.toLowerCase().replace(/\s+/g, "-");
 const fromSlug = (slug: string) => slug.replace(/-/g, " ");
 
 const Menu: React.FC = () => {
-  const { allCategories } = useMenuCategory();
-  const { getMenusByCategory, menus, loading: menuLoading } = useMenus();
+  const { allCategories, fetchAllCategories } = useMenuCategory();
+  const { getMenusByCategory, menus, loading: menuLoading, fetchMenus } = useMenus();
   const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
 
@@ -49,6 +49,11 @@ const Menu: React.FC = () => {
       setFilteredMenus(match);
     }
   }, [menus, categoryId]);
+
+  useEffect(()=>{
+    fetchMenus();
+    fetchAllCategories();
+  },[])
 
   const handleCategoryChange = (newCategoryTitle: string) => {
     navigate(`/menu/${toSlug(newCategoryTitle)}`);

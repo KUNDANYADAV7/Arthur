@@ -91,10 +91,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
           <div className="p-8 bg-white relative">
             <div className="absolute top-0 right-0 w-40 h-40 bg-pesto-cream/30 rounded-full blur-3xl -z-10"></div>
             
-            <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold text-pesto-brown mb-2">
+            <div className="space-y-2">
+              <h2 className="text-3xl md:text-4xl font-bold text-pesto-brown mb-0">
                 {product.name}
               </h2>
+
+             {product.onSale && <p className="text-md md:text-lg font-bold text-pesto-brown mb-2">
+              {product.saleDescription?.toUpperCase()}
+
+              </p>}
               
               <div className="flex items-center">
                 <span className="text-3xl font-bold text-pesto-orange">

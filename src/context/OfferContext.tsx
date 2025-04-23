@@ -29,6 +29,7 @@ interface OfferContextType {
   allOffers: Offer[];
   loading: boolean;
   getOfferById: (id: string) => Promise<Offer | null>;
+  fetchAllOffers: () => Promise<void>;
 }
 
 // 3. Create context with default empty value
@@ -82,7 +83,7 @@ export const OfferProvider: React.FC<OfferProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <OfferContext.Provider value={{ allOffers, loading, getOfferById }}>
+    <OfferContext.Provider value={{ allOffers, loading, getOfferById, fetchAllOffers }}>
       {children}
     </OfferContext.Provider>
   );
