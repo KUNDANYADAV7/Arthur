@@ -33,7 +33,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     >
       <img
         src={`${config.apiUrl}/${product.image}`}
-        loading="lazy"
         alt={product.name}
         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         onClick={(e) => {

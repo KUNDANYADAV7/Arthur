@@ -39,7 +39,6 @@ const BlogDetails = () => {
         <div className="max-w-4xl mx-auto">
           <img
             src={`${config.apiUrl}/${blog?.photo}`}
-            loading="lazy"
             alt={blog?.title}
             className="w-full h-96 object-cover rounded-xl shadow-md mb-8"
           />

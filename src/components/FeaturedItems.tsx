@@ -53,7 +53,6 @@ const FeaturedMenu = () => {
                 >
                   <img
                     src={`${config.apiUrl}/${item.photo}`}
-                    loading="lazy"
                     alt="img"
                     className="h-full w-auto object-contain"
                   />
