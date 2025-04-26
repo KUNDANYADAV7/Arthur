@@ -89,7 +89,7 @@ const FoodExperience: React.FC = () => {
           <div className="relative">
             <div className="aspect-square rounded-2xl overflow-hidden relative">
               <img 
-                src="./images/aboutus.png" 
+                src="./images/aboutus.webp" 
                 alt="Futuristic dining experience" 
                 className="w-full h-full object-cover"
               />

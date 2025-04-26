@@ -19,7 +19,7 @@ const { allOffers, fetchAllOffers } = useOffer();
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
           backgroundImage:
-            "url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1500&auto=format&fit=crop)",
+            "url('/herobg.webp')",
           backgroundPosition: "center 40%",
         }}
       >

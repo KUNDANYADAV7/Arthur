@@ -78,9 +78,7 @@ export const OfferProvider: React.FC<OfferProviderProps> = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchAllOffers();
-  }, []);
+
 
   return (
     <OfferContext.Provider value={{ allOffers, loading, getOfferById, fetchAllOffers }}>

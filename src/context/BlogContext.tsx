@@ -75,9 +75,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchAllBlogs();
-  }, []);
+
 
   return (
     <BlogContext.Provider

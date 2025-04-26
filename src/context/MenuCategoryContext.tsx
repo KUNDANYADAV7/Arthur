@@ -92,9 +92,6 @@ export const MenuCategoryProvider: React.FC<MenuCategoryProviderProps> = ({
     }
   };
 
-  useEffect(() => {
-    fetchAllCategories();
-  }, []);
 
   return (
     <MenuCategoryContext.Provider

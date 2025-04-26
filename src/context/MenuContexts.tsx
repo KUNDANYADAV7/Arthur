@@ -100,9 +100,7 @@ export const MenuProviders: React.FC<ProviderProps> = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchMenus();
-  }, []);
+
 
   return (
     <MenuContexts.Provider

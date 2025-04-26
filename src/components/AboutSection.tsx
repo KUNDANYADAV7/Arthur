@@ -11,7 +11,7 @@ const AboutSection: React.FC = () => {
           <div className="lg:w-1/2">
             <div className="relative">
               <img
-                src="./images/8.png"
+                src="./images/8.webp"
                 alt="ARTHUR SANDWICH HOUSE"
                 className="rounded-2xl shadow-xl"
               />

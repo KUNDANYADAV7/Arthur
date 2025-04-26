@@ -81,11 +81,6 @@ export const PopularChoiceProvider: React.FC<PopularChoiceProviderProps> = ({ ch
     }
   };
 
-  useEffect(() => {
-    fetchMyPopularChoices();
-    fetchAllPopularChoices();
-  }, []);
-
   return (
     <PopularChoiceContext.Provider
       value={{

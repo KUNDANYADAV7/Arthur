@@ -124,7 +124,7 @@ const Menu: React.FC = () => {
       categoryId?.toLowerCase() === "all" ? "ring-2 ring-pesto-orange" : ""
     }`}
   >
-    <img src="/all-menu.png" alt="All" className="w-full h-full object-cover" />
+    <img src="/all-menu.webp" alt="All" className="w-full h-full object-cover" />
   </div>
   <span className="font-medium text-sm">All</span>
 </button>
@@ -177,19 +177,6 @@ const Menu: React.FC = () => {
               ({sortedMenus.length} items)
             </span>
           </h2>
-          {/* <Select onValueChange={setSortOrder} defaultValue="default">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="default">Default</SelectItem>
-              <SelectItem value="price-low-high">Price: Low to High</SelectItem>
-              <SelectItem value="price-high-low">Price: High to Low</SelectItem>
-              <SelectItem value="name-a-z">Name: A to Z</SelectItem>
-              <SelectItem value="name-z-a">Name: Z to A</SelectItem>
-            </SelectContent>
-          </Select> */}
-
 {isMobile ? (
   <select
     className="border rounded px-4 py-2 text-sm"
