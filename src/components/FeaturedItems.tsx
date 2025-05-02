@@ -4,22 +4,17 @@ import { usePopularChoice } from '@/context/PopularChoiceContext';
 import config from '@/config';
 import Marquee from "react-fast-marquee";
 
-interface MenuItem {
-  id: string;
-  name: string;
-  photo: string;
-}
-
 const FeaturedMenu = () => {
   const navigate = useNavigate();
   const { allPopularChoices, fetchAllPopularChoices } = usePopularChoice();
-  const [loading, setLoading] = useState(true); // 👈 Add loading state
+  const [loading, setLoading] = useState(true);
+  const [modalImage, setModalImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // start loading
+      setLoading(true);
       await fetchAllPopularChoices();
-      setLoading(false); // finish loading
+      setLoading(false);
     };
 
     fetchData();
@@ -39,26 +34,48 @@ const FeaturedMenu = () => {
           {loading ? (
             <div className="text-center text-gray-600 py-10">Loading popular choices...</div>
           ) : allPopularChoices.length > 0 ? (
-            <Marquee
-              direction="left"
-              speed={90}
-              gradient={false}
-              pauseOnHover={false}
-              className="px-12"
-            >
-              {allPopularChoices.map((item, index) => (
-                <div
-                  key={`${item._id}-${index}`}
-                  className="cursor-pointer w-[200px] md:w-[422px] h-[100px] md:h-[200px] mr-4 last:mr-0 rounded-lg overflow-hidden flex items-center justify-center "
-                >
-                  <img
-                    src={`${config.apiUrl}/${item.photo}`}
-                    alt="img"
-                    className="h-full w-auto object-contain"
-                  />
+            <>
+              <Marquee
+                direction="left"
+                speed={90}
+                gradient={false}
+                pauseOnHover={true}
+                className="px-12"
+              >
+                {allPopularChoices.map((item, index) => (
+                  <div
+                    key={`${item._id}-${index}`}
+                    className="cursor-pointer w-[200px] md:w-[422px] h-[100px] md:h-[200px] mr-4 last:mr-0 rounded-lg overflow-hidden flex items-center justify-center"
+                    onClick={() => setModalImage(`${config.apiUrl}/${item.photo}`)}
+                  >
+                    <img
+                      src={`${config.apiUrl}/${item.photo}`}
+                      alt={item.title}
+                      className="h-full w-auto object-contain"
+                    />
+                  </div>
+                ))}
+              </Marquee>
+
+              {/* Modal */}
+              {modalImage && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4">
+                  <div className="relative max-w-full max-h-full">
+                    <button
+                      onClick={() => setModalImage(null)}
+                      className="absolute top-2 right-2 text-white text-3xl font-bold z-10"
+                    >
+                      &times;
+                    </button>
+                    <img
+                      src={modalImage}
+                      alt="Enlarged"
+                      className="max-w-full max-h-[90vh] object-contain rounded-md"
+                    />
+                  </div>
                 </div>
-              ))}
-            </Marquee>
+              )}
+            </>
           ) : (
             <div className="text-center text-gray-600 py-10">
               No popular choices available at the moment.
