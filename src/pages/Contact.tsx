@@ -18,15 +18,15 @@ const Contact: React.FC = () => {
     // For Android devices
     if (/android/i.test(userAgent)) {
       window.location.href =
-        "intent://compose?to=techybuilderr@gmail.com#Intent;package=com.google.android.gm;scheme=mailto;end;";
+        "intent://compose?to=sandwichclub153@gmail.com#Intent;package=com.google.android.gm;scheme=mailto;end;";
     }
     // For iOS devices
     else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-      window.location.href = "googlegmail://co?to=techybuilderr@gmail.com";
+      window.location.href = "googlegmail://co?to=sandwichclub153@gmail.com";
     }
     // Fallback
     else {
-      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=techybuilderr@gmail.com", "_blank");
+      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=sandwichclub153@gmail.com", "_blank");
     }
   };
   
@@ -172,7 +172,7 @@ const Contact: React.FC = () => {
                 <h3 className="font-bold text-pesto-brown mb-1">Email Address</h3>
                 <p className="text-muted-foreground">  <button
   onClick={openGmail}
-  className="hover:text-pesto-orange text-left p-0 bg-transparent underline"
+  className="hover:text-pesto-orange text-left p-0 bg-transparent"
 >
   sandwichclub153@gmail.com
 </button></p>
