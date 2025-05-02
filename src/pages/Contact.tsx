@@ -151,7 +151,14 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-pesto-brown mb-1">Email Address</h3>
-                <p className="text-muted-foreground">sandwichclub153@gmail.com</p>
+                <p className="text-muted-foreground">  <a
+    href="https://mail.google.com/mail/?view=cm&to=sandwichclub153@gmail.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:text-pesto-orange"
+  >
+    sandwichclub153@gmail.com
+  </a></p>
               </div>
             </div>
 
@@ -161,7 +168,8 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-pesto-brown mb-1">Business Hours</h3>
-                <p className="text-muted-foreground">Mon - Fri: 9:00 AM - 5:00 PM</p>
+                <p className="text-muted-foreground">Monday - Saturday: 10:00 AM - 9:00 PM</p>
+                <p className="text-muted-foreground">Sunday: 11:00 AM - 8:00 PM</p>
               </div>
             </div>
           </div>
