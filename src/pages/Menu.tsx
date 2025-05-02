@@ -161,7 +161,7 @@ const Menu: React.FC = () => {
             </button>
 
             {/* Other Categories */}
-            {allCategories.map((category) => {
+            {Array.isArray(allCategories) && allCategories.map((category) => {
               const isActive = toSlug(category.title) === categoryId?.toLowerCase();
               return (
                 <button
