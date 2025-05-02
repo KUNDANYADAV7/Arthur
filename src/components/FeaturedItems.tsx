@@ -60,17 +60,20 @@ const FeaturedMenu = () => {
               {/* Modal */}
               {modalImage && (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4">
-    <div className="relative">
+    <div className="relative w-[90vw] max-w-[600px] md:w-[600px]">
+      {/* Close Button */}
       <button
         onClick={() => setModalImage(null)}
-        className="absolute top-2 right-2 text-green-600 text-3xl font-bold z-10"
+        className="absolute top-2 right-2 text-white text-3xl font-bold z-10"
       >
         &times;
       </button>
+
+      {/* Image */}
       <img
         src={modalImage}
         alt="Enlarged"
-        className="w-[90vw] h-auto max-h-[80vh] md:w-[600px] md:h-[400px] object-contain rounded-md mx-auto"
+        className="w-full h-auto max-h-[80vh] object-contain rounded-md"
       />
     </div>
   </div>
