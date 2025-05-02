@@ -12,6 +12,25 @@ const Contact: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const openGmail = () => {
+    const userAgent = navigator.userAgent || (navigator as any).vendor || (window as any).opera;
+  
+    // For Android devices
+    if (/android/i.test(userAgent)) {
+      window.location.href =
+        "intent://compose?to=techybuilderr@gmail.com#Intent;package=com.google.android.gm;scheme=mailto;end;";
+    }
+    // For iOS devices
+    else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+      window.location.href = "googlegmail://co?to=techybuilderr@gmail.com";
+    }
+    // Fallback
+    else {
+      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=techybuilderr@gmail.com", "_blank");
+    }
+  };
+  
+
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -151,14 +170,12 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-pesto-brown mb-1">Email Address</h3>
-                <p className="text-muted-foreground">  <a
-    href="https://mail.google.com/mail/?view=cm&to=sandwichclub153@gmail.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="hover:text-pesto-orange"
-  >
-    sandwichclub153@gmail.com
-  </a></p>
+                <p className="text-muted-foreground">  <button
+  onClick={openGmail}
+  className="hover:text-pesto-orange text-left p-0 bg-transparent underline"
+>
+  sandwichclub153@gmail.com
+</button></p>
               </div>
             </div>
 
