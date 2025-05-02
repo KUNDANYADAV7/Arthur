@@ -63,7 +63,7 @@ const FeaturedMenu = () => {
                   <div className="relative max-w-full max-h-full">
                     <button
                       onClick={() => setModalImage(null)}
-                      className="absolute top-2 right-2 text-white text-3xl font-bold z-10"
+                      className="absolute top-2 right-2 text-green-600 text-3xl font-bold z-10"
                     >
                       &times;
                     </button>
