@@ -1,5 +1,4 @@
-
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -11,10 +10,10 @@ import {
 } from "@/components/ui/select";
 import ProductCard from "@/components/ProductCard";
 import { useMenuCategory } from "@/context/MenuCategoryContext";
+import { useMenus } from "@/context/MenuContexts";
 import config from "@/config";
-import axios from "axios";
 
-// Utility functions
+// Utility functions to handle slugs
 const toSlug = (str: string) => str.toLowerCase().replace(/\s+/g, "-");
 const fromSlug = (slug: string) => slug.replace(/-/g, " ");
 
@@ -22,64 +21,41 @@ const Menu: React.FC = () => {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const { allCategories, fetchAllCategories } = useMenuCategory();
+  const { getMenusByCategory, menus, loading: menuLoading, fetchMenus } = useMenus();
   const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
 
-  const [menus, setMenus] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-
   const [sortOrder, setSortOrder] = useState("default");
+  const [filteredMenus, setFilteredMenus] = useState([]);
   const categoryTabsRef = useRef<HTMLDivElement>(null);
 
   const selectedCategory = fromSlug(categoryId?.toLowerCase() || "all");
 
-  // Fetch menus
-  const fetchMenus = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${config.apiUrl}/api/menus?page=${page}`);
-      const newMenus = response.data.menus;
-
-      setMenus((prevMenus) => [...prevMenus, ...newMenus]);
-      setHasMore(page < response.data.totalPages);
-      setLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch menus", error);
-      setLoading(false);
-    }
-  }, [page]);
-
-  // First load
+  // Fetch menus when category changes
   useEffect(() => {
+    if (categoryId) {
+      getMenusByCategory(fromSlug(categoryId));
+    }
+    window.scrollTo(0, 0);
+  }, [categoryId]);
+
+  // Filter menus based on categoryId
+  useEffect(() => {
+    if (!categoryId || categoryId.toLowerCase() === "all") {
+      setFilteredMenus(menus);
+    } else {
+      const categoryName = fromSlug(categoryId.toLowerCase());
+      const match = menus.filter(
+        (menu) => menu.category?.toLowerCase() === categoryName
+      );
+      setFilteredMenus(match);
+    }
+  }, [menus, categoryId]);
+
+  useEffect(()=>{
     fetchMenus();
     fetchAllCategories();
-    window.scrollTo(0, 0);
-  }, []);
-
-  // Infinite scroll handler
-  useEffect(() => {
-    const handleScroll = () => {
-      if (loading || !hasMore) return;
-
-      if (
-        window.innerHeight + document.documentElement.scrollTop + 100 >=
-        document.documentElement.offsetHeight
-      ) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading, hasMore]);
-
-  // Load more menus when page increases
-  useEffect(() => {
-    if (page === 1) return; // Don't fetch again on first load
-    fetchMenus();
-  }, [page]);
+  },[])
 
   const handleCategoryChange = (newCategoryTitle: string) => {
     navigate(`/menu/${toSlug(newCategoryTitle)}`);
@@ -94,27 +70,20 @@ const Menu: React.FC = () => {
     }
   };
 
-  // Filter and Sort menus
-  let filteredMenus = [...menus];
-  if (categoryId && categoryId.toLowerCase() !== "all") {
-    const categoryName = fromSlug(categoryId.toLowerCase());
-    filteredMenus = filteredMenus.filter(
-      (menu) => menu.category?.toLowerCase() === categoryName
-    );
-  }
-
+  // Sort menus
+  let sortedMenus = [...filteredMenus];
   switch (sortOrder) {
     case "price-low-high":
-      filteredMenus.sort((a, b) => Number(a.price) - Number(b.price));
+      sortedMenus.sort((a, b) => Number(a.price) - Number(b.price));
       break;
     case "price-high-low":
-      filteredMenus.sort((a, b) => Number(b.price) - Number(a.price));
+      sortedMenus.sort((a, b) => Number(b.price) - Number(a.price));
       break;
     case "name-a-z":
-      filteredMenus.sort((a, b) => a.name.localeCompare(b.name));
+      sortedMenus.sort((a, b) => a.name.localeCompare(b.name));
       break;
     case "name-z-a":
-      filteredMenus.sort((a, b) => b.name.localeCompare(a.name));
+      sortedMenus.sort((a, b) => b.name.localeCompare(a.name));
       break;
   }
 
@@ -143,26 +112,28 @@ const Menu: React.FC = () => {
           >
             {/* All Category */}
             <button
-              onClick={() => navigate("/menu/all")}
-              className={`snap-start flex flex-col items-center min-w-[80px] sm:min-w-[100px] transition-all duration-300 ${
-                categoryId?.toLowerCase() === "all"
-                  ? "text-pesto-orange scale-110 font-semibold"
-                  : "text-pesto-brown hover:text-pesto-orange"
-              }`}
-            >
-              <div
-                className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden mb-2 ${
-                  categoryId?.toLowerCase() === "all" ? "ring-2 ring-pesto-orange" : ""
-                }`}
-              >
-                <img src="/all-menu.webp" alt="All" className="w-full h-full object-cover" />
-              </div>
-              <span className="font-medium text-sm">All</span>
-            </button>
+  onClick={() => navigate("/menu/all")}
+  className={`snap-start flex flex-col items-center min-w-[80px] sm:min-w-[100px] transition-all duration-300 ${
+    categoryId?.toLowerCase() === "all"
+      ? "text-pesto-orange scale-110 font-semibold"
+      : "text-pesto-brown hover:text-pesto-orange"
+  }`}
+>
+  <div
+    className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden mb-2 ${
+      categoryId?.toLowerCase() === "all" ? "ring-2 ring-pesto-orange" : ""
+    }`}
+  >
+    <img src="/all-menu.webp" alt="All" className="w-full h-full object-cover" />
+  </div>
+  <span className="font-medium text-sm">All</span>
+</button>
+
 
             {/* Other Categories */}
-            {Array.isArray(allCategories) && allCategories.map((category) => {
-              const isActive = toSlug(category.title) === categoryId?.toLowerCase();
+            {allCategories.map((category) => {
+              const isActive =
+                toSlug(category.title) === categoryId?.toLowerCase();
               return (
                 <button
                   key={category._id}
@@ -203,36 +174,36 @@ const Menu: React.FC = () => {
           <h2 className="text-2xl font-bold text-pesto-brown capitalize">
             {selectedCategory}
             <span className="text-muted-foreground text-lg font-normal ml-2">
-              ({filteredMenus.length} items)
+              ({sortedMenus.length} items)
             </span>
           </h2>
+{isMobile ? (
+  <select
+    className="border rounded px-4 py-2 text-sm"
+    value={sortOrder}
+    onChange={(e) => setSortOrder(e.target.value)}
+  >
+    <option value="default">Default</option>
+    <option value="price-low-high">Price: Low to High</option>
+    <option value="price-high-low">Price: High to Low</option>
+    <option value="name-a-z">Name: A to Z</option>
+    <option value="name-z-a">Name: Z to A</option>
+  </select>
+) : (
+  <Select onValueChange={setSortOrder} defaultValue="default">
+    <SelectTrigger className="w-[180px]">
+      <SelectValue placeholder="Sort by" />
+    </SelectTrigger>
+    <SelectContent className="z-50">
+      <SelectItem value="default">Default</SelectItem>
+      <SelectItem value="price-low-high">Price: Low to High</SelectItem>
+      <SelectItem value="price-high-low">Price: High to Low</SelectItem>
+      <SelectItem value="name-a-z">Name: A to Z</SelectItem>
+      <SelectItem value="name-z-a">Name: Z to A</SelectItem>
+    </SelectContent>
+  </Select>
+)}
 
-          {isMobile ? (
-            <select
-              className="border rounded px-4 py-2 text-sm"
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-            >
-              <option value="default">Default</option>
-              <option value="price-low-high">Price: Low to High</option>
-              <option value="price-high-low">Price: High to Low</option>
-              <option value="name-a-z">Name: A to Z</option>
-              <option value="name-z-a">Name: Z to A</option>
-            </select>
-          ) : (
-            <Select onValueChange={setSortOrder} defaultValue="default">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent className="z-50">
-                <SelectItem value="default">Default</SelectItem>
-                <SelectItem value="price-low-high">Price: Low to High</SelectItem>
-                <SelectItem value="price-high-low">Price: High to Low</SelectItem>
-                <SelectItem value="name-a-z">Name: A to Z</SelectItem>
-                <SelectItem value="name-z-a">Name: Z to A</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
         </div>
 
         {/* Conditional Notes */}
@@ -255,25 +226,20 @@ const Menu: React.FC = () => {
         )}
 
         {/* Product Cards */}
-        {filteredMenus.length > 0 ? (
+        {menuLoading ? (
+          <p className="text-center text-muted-foreground">Loading...</p>
+        ) : sortedMenus.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredMenus.map((item) => (
+            {sortedMenus.map((item) => (
               <ProductCard key={item._id} product={item} />
             ))}
           </div>
-        ) : loading ? (
-          <p className="text-center text-muted-foreground">Loading...</p>
         ) : (
           <div className="text-center py-20">
             <p className="text-muted-foreground text-lg">
               No categories available for this selection.
             </p>
           </div>
-        )}
-
-        {/* Loader while fetching more */}
-        {loading && (
-          <p className="text-center text-muted-foreground mt-6">Loading more menus...</p>
         )}
       </div>
     </div>
