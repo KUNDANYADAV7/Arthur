@@ -69,7 +69,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
           </div>
 
-          {product.onSale && (
+          {product.onSale && product.saleDescription && (
             <div className="mt-2 px-4 text-sm font-bold break-words whitespace-pre-line">
                {product.saleDescription?.toUpperCase()}
             </div>

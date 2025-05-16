@@ -96,7 +96,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                 {product.name}
               </h2>
 
-             {product.onSale && <p className="text-md md:text-lg font-bold text-pesto-brown mb-2">
+             {product.onSale && product.saleDescription && <p className="text-md md:text-lg font-bold text-pesto-brown mb-2">
               {product.saleDescription?.toUpperCase()}
 
               </p>}
@@ -129,7 +129,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
               </div>
 
-              <div>
+             {product.description && ( <div>
                 <h3 className="text-lg font-semibold text-pesto-brown mb-3">About This Dish</h3>
                 <p className="text-muted-foreground mb-2 leading-relaxed">
                   {showFullDescription || !product.prepInstructions
@@ -150,13 +150,29 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   )}
                 </p>
               </div>
-              <Button
+)}
+
+              {/* <Button
                 className="w-full py-6 text-lg relative overflow-hidden group"
                 onClick={handleContactClick}
               >
                 <span className="relative z-10">CONTACT US</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-pesto-orange to-pesto-light-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </Button>
+              </Button> */}
+
+<div className="p-8 bg-white relative" style={{ minHeight: '100px' }}>
+  <div className="absolute left-0 right-0 bottom-[5px] px-8">
+    <Button
+      className="w-full py-6 text-lg"
+      onClick={handleContactClick}
+    >
+      CONTACT US
+    </Button>
+  </div>
+</div>
+
+
+
             </div>
           </div>
         </div>
